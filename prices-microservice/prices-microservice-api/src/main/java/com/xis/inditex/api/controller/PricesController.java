@@ -2,7 +2,7 @@ package com.xis.inditex.api.controller;
 
 import com.xis.inditex.api.mapper.PricesApiMapper;
 import com.xis.inditex.domain.service.PriceService;
-import com.xis.inditex.pricesapi.controller.PricesApi;
+import com.xis.inditex.pricesapi.controller.PriceApi;
 import com.xis.inditex.pricesapi.dto.PricesSearchResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -22,7 +22,7 @@ import java.util.Date;
  */
 @RequiredArgsConstructor
 @RestController
-public class PricesController implements PricesApi {
+public class PricesController implements PriceApi {
 
     private final PricesApiMapper pricesApiMapper;
 

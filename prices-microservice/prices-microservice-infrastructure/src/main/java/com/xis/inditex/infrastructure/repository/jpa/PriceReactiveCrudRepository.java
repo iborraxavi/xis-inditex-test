@@ -24,7 +24,13 @@ public interface PriceReactiveCrudRepository extends ReactiveCrudRepository<Pric
      * @param brandId         Brand ID
      * @return Price entity
      */
-    @Query("SELECT * FROM Prices p WHERE (p.start_date < ?1 and p.end_date > ?1) and p.product_id = ?2 and p.brand_id = ?3 ORDER BY p.priority DESC LIMIT 1")
+    @Query("""
+            SELECT p.brand_id, p.product_id, p.price_list, p.start_date, p.end_date, p.price
+            FROM Prices p
+            WHERE (p.start_date < ?1 and p.end_date > ?1) and p.product_id = ?2 and p.brand_id = ?3
+            ORDER BY p.priority DESC
+            LIMIT 1
+            """)
     Mono<PriceEntity> search(final LocalDateTime applicationDate, final Long productId, final Integer brandId);
 
 }

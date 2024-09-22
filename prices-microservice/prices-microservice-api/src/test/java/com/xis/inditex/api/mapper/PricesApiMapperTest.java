@@ -64,6 +64,7 @@ class PricesApiMapperTest {
 
         assertNotNull(result);
         assertEquals(PRODUCT_ID, result.getProductId());
+        assertEquals(BRAND_ID, result.getBrandId());
         assertEquals(PRICE_LIST, result.getPriceList());
         assertEquals(START_DATE.toInstant(ZoneOffset.UTC).toEpochMilli(), result.getStartDate().getTime());
         assertEquals(END_DATE.toInstant(ZoneOffset.UTC).toEpochMilli(), result.getEndDate().getTime());

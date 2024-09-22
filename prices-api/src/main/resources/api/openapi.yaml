@@ -23,7 +23,7 @@ paths:
   /prices:
     get:
       tags:
-        - prices
+        - price
       summary: Prices search
       description: prices search
       operationId: prices
@@ -100,6 +100,11 @@ components:
           type: integer
           format: int64
           example: 35455
+        brandId:
+          description: Brand id
+          type: integer
+          format: int32
+          example: 1
         priceList:
           description: Price list
           type: integer
@@ -122,6 +127,7 @@ components:
           example: 35.50
       required:
         - productId
+        - brandId
         - priceList
         - startDate
         - endDate

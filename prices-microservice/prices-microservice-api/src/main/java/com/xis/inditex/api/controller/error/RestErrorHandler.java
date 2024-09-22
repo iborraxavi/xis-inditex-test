@@ -57,7 +57,7 @@ public class RestErrorHandler {
      */
     @ExceptionHandler(PriceRepositoryException.class)
     public ResponseEntity<Error> handlePriceRepositoryException(final PriceRepositoryException ex, final ServerWebExchange exchange) {
-        log.error("Price repository exception error: {}", ex.getMessage());
+        log.error("Price repository exception error", ex);
 
         final HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         return ResponseEntity.status(httpStatus).body(buildError(

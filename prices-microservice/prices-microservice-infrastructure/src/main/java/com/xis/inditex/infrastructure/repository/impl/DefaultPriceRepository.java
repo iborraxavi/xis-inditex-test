@@ -8,6 +8,7 @@ import com.xis.inditex.domain.repository.PriceRepository;
 import com.xis.inditex.infrastructure.mapper.PriceInfrastructureMapper;
 import com.xis.inditex.infrastructure.repository.jpa.PriceReactiveCrudRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,7 @@ import reactor.core.publisher.Mono;
  *
  * @author XIS
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DefaultPriceRepository implements PriceRepository {
@@ -36,11 +38,13 @@ public class DefaultPriceRepository implements PriceRepository {
     public Mono<Price> search(final PriceRequest priceRequest) {
         return priceReactiveCrudRepository.search(priceRequest.applicationDate(), priceRequest.productId(), priceRequest.brandId())
                 .map(priceInfrastructureMapper::toDomain)
-                .onErrorResume(error ->
-                        Mono.error(new PriceRepositoryException(
-                                String.format(ERROR_MESSAGE, priceRequest.applicationDate(), priceRequest.productId(), priceRequest.brandId()),
-                                ErrorCode.PRICE_REPOSITORY_EXCEPTION,
-                                new String[]{priceRequest.applicationDate().toString(), priceRequest.productId().toString(), priceRequest.brandId().toString()})));
+                .onErrorResume(error -> {
+                    log.error("Repository unexpected error: {}", error.getMessage(), error);
+                    return Mono.error(new PriceRepositoryException(
+                            String.format(ERROR_MESSAGE, priceRequest.applicationDate(), priceRequest.productId(), priceRequest.brandId()),
+                            ErrorCode.PRICE_REPOSITORY_EXCEPTION,
+                            new String[]{priceRequest.applicationDate().toString(), priceRequest.productId().toString(), priceRequest.brandId().toString()}));
+                });
     }
 
 }
