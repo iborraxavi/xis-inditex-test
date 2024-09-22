@@ -79,6 +79,7 @@ components:
         type: integer
         format: int64
         example: 35455
+        minimum: 1
     BrandId:
       name: brandId
       in: query
@@ -88,6 +89,7 @@ components:
         type: integer
         format: int32
         example: 1
+        minimum: 1
 
   schemas:
     PricesSearchResponse:
@@ -96,8 +98,8 @@ components:
         productId:
           description: Product id
           type: integer
-          format: int32
-          example: 1
+          format: int64
+          example: 35455
         priceList:
           description: Price list
           type: integer

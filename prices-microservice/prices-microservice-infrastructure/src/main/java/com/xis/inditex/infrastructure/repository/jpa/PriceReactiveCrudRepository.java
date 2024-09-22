@@ -1,0 +1,30 @@
+package com.xis.inditex.infrastructure.repository.jpa;
+
+import com.xis.inditex.infrastructure.entity.PriceEntity;
+import org.springframework.data.r2dbc.repository.Query;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
+
+/**
+ * Price reactive crud repository
+ *
+ * @author XIS
+ */
+@Repository
+public interface PriceReactiveCrudRepository extends ReactiveCrudRepository<PriceEntity, Long> {
+
+    /**
+     * Search
+     *
+     * @param applicationDate Application date
+     * @param productId       Product ID
+     * @param brandId         Brand ID
+     * @return Price entity
+     */
+    @Query("SELECT * FROM Prices p WHERE (p.start_date < ?1 and p.end_date > ?1) and p.product_id = ?2 and p.brand_id = ?3 ORDER BY p.priority DESC LIMIT 1")
+    Mono<PriceEntity> search(final LocalDateTime applicationDate, final Long productId, final Integer brandId);
+
+}
